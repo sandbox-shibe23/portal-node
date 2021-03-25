@@ -2,7 +2,6 @@ import * as readline from 'readline'
 import * as fs from "fs";
 import {CommandArgs} from "../index";
 
-// const matcher = new RegExp(`^${value.label}`)
 interface ReadLineResult {
   isMatch: boolean;
   line: string;
