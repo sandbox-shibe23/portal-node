@@ -3,9 +3,13 @@ import * as fs from "fs";
 import {CommandArgs} from "../index";
 
 // const matcher = new RegExp(`^${value.label}`)
+interface ReadLineResult {
+  isMatch: boolean;
+  line: string;
+}
 
-export function hasMatchedTextInReadLines(path:string, matcher: (line) => RegExpMatchArray): Promise<boolean> {
-  return new Promise<boolean>( (resolve) => {
+export function hasMatchedTextInReadLines(path:string, matcher: (line: string) => RegExpMatchArray): Promise<ReadLineResult> {
+  return new Promise( (resolve) => {
     const rs = fs.createReadStream(path)
     const rl = readline.createInterface({
       input: rs
@@ -15,10 +19,17 @@ export function hasMatchedTextInReadLines(path:string, matcher: (line) => RegExp
       const result = matcher(line)
       if (result.length > 0) {
         isMatch = true
+        return resolve({
+          isMatch,
+          line
+        })
         rl.close()
       }
     }).on('close', () => {
-      return resolve(isMatch)
+      resolve({
+        isMatch: false,
+        line: ''
+      })
     })
   })
 }
