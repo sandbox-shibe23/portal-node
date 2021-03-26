@@ -3,6 +3,7 @@ import {promises as fs} from "fs";
 import * as os from "os";
 import * as path from "path";
 import {add} from "./add";
+import {go} from "./go";
 
 const [, , command, label, dir] = process.argv
 type Command = string | null;
@@ -36,7 +37,7 @@ async function main (command: Command, commandArgs: CommandArgs, appOptions: App
   }
   switch (command) {
     case 'go':
-      go(commandArgs)
+      go(commandArgs, appOptions)
       break;
     case 'add':
       add(commandArgs, appOptions)
@@ -56,11 +57,6 @@ async function readOrCreateFile(appOptions: AppOptions):Promise<Buffer | void> {
     }
   }
 
-}
-
-function go(options: CommandArgs) {
-  console.log('this is go.')
-  exec(`cd ${options.dir}`)
 }
 
 function showAllCommands(){
