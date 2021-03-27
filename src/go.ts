@@ -1,16 +1,26 @@
-import {hasMatchedTextInReadLines} from "./lib/readline";
+import {readLineEffect} from "./lib/readline";
 import type {AppOptions, CommandArgs} from "./index";
 
 export async function go (value:CommandArgs, appOptions: AppOptions){
-  const { isMatch, line } = await hasMatchedTextInReadLines(appOptions.PORTAL_FILE, (line) => {
-    return line.match(new RegExp(`^${value.label}`)) || []
+  let result = {
+    isMatch: false,
+    line: ''
+  }
+  await readLineEffect(appOptions.PORTAL_FILE, (line, rl) => {
+    const matchText = line.match(new RegExp(`^${value.label}`)) || []
+    if (matchText.length > 0) {
+      result.isMatch = true
+      result.line = line
+      rl.close()
+    }
   })
-  if (isMatch){
-    const [_, path] = line.split(' ')
+
+  if (result.isMatch) {
+    const [_, path] = result.line.split(' ')
     // shell側にpathとexitコードを渡す
     console.log(path)
     process.exit(2)
-  }else {
+  }else{
     console.log(`Does not Match ${value.label}`)
   }
 }

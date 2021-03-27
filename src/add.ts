@@ -1,9 +1,14 @@
 import type {AppOptions, CommandArgs} from "./index";
-import {hasMatchedTextInReadLines, writeFileEffect} from "./lib/readline";
+import {readLineEffect, writeFileEffect} from "./lib/readline";
 
 export async function add(value:CommandArgs, appOptions: AppOptions){
-  const {isMatch} = await hasMatchedTextInReadLines(appOptions.PORTAL_FILE, (line) => {
-    return line.match(new RegExp(`^${value.label}`)) || []
+  let isMatch = false
+  await readLineEffect(appOptions.PORTAL_FILE, (line, rl) => {
+    const matchText = line.match(new RegExp(`^${value.label}`)) || []
+    if (matchText.length > 0) {
+      isMatch = true
+      rl.close()
+    }
   })
   if (!isMatch) {
     writeFileEffect(appOptions.PORTAL_FILE, value)

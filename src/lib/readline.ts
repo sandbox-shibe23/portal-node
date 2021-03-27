@@ -2,33 +2,16 @@ import * as readline from 'readline'
 import * as fs from "fs";
 import {CommandArgs} from "../index";
 
-interface ReadLineResult {
-  isMatch: boolean;
-  line: string;
-}
-
-export function hasMatchedTextInReadLines(path:string, matcher: (line: string) => RegExpMatchArray): Promise<ReadLineResult> {
+export function readLineEffect(path:string, callback: (line: string, rl:readline.Interface | null) => void): Promise<void> {
   return new Promise( (resolve) => {
     const rs = fs.createReadStream(path)
     const rl = readline.createInterface({
       input: rs
     })
-    let isMatch = false
     rl.on('line', (line: string)=>{
-      const result = matcher(line)
-      if (result.length > 0) {
-        isMatch = true
-        return resolve({
-          isMatch,
-          line
-        })
-        rl.close()
-      }
+      callback(line, rl)
     }).on('close', () => {
-      resolve({
-        isMatch: false,
-        line: ''
-      })
+      resolve()
     })
   })
 }
