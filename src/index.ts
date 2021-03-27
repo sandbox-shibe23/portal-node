@@ -4,6 +4,7 @@ import * as os from "os";
 import * as path from "path";
 import {add} from "./add";
 import {go} from "./go";
+import {list} from "./list";
 
 const [, , command, label, dir] = process.argv
 type Command = string | null;
@@ -42,21 +43,10 @@ async function main (command: Command, commandArgs: CommandArgs, appOptions: App
     case 'add':
       add(commandArgs, appOptions)
       break;
+    case 'list':
+      list(appOptions)
+      break;
   }
-}
-
-async function readOrCreateFile(appOptions: AppOptions):Promise<Buffer | void> {
-  try {
-    return await fs.readFile(appOptions.PORTAL_FILE)
-  } catch (err) {
-    if (err.code === 'ENOENT') {
-      console.log('portal file does not exist. create...')
-      return await fs.writeFile(appOptions.PORTAL_FILE, '', { flag: 'w' }).catch((err) => {
-        console.log('writeFileError', err)
-      })
-    }
-  }
-
 }
 
 function showAllCommands(){
