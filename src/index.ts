@@ -5,6 +5,7 @@ import * as path from "path";
 import {add} from "./add";
 import {go} from "./go";
 import {list} from "./list";
+import {edit} from "./edit";
 
 const [, , command, label, dir] = process.argv
 type Command = string | null;
@@ -42,6 +43,9 @@ async function main (command: Command, commandArgs: CommandArgs, appOptions: App
       break;
     case 'add':
       add(commandArgs, appOptions)
+      break;
+    case 'edit':
+      edit(commandArgs, appOptions)
       break;
     case 'list':
       list(appOptions)
