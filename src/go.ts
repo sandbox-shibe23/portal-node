@@ -2,6 +2,10 @@ import {readLineEffect} from "./lib/readline";
 import type {AppOptions, CommandArgs} from "./index";
 
 export async function go (value:CommandArgs, appOptions: AppOptions){
+  if (!value.label) {
+    throw new Error(`Invalid Label. ${value.label}`)
+  }
+
   let result = {
     isMatch: false,
     line: ''
