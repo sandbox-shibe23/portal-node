@@ -23,28 +23,28 @@ npm install -g shibe23/portal
 Add `label` and `dir` on `~/.portal` file.
 
 ```
-portal add dev /path/to/your/directory 
+pt add dev /path/to/your/directory 
 ```   
 
 ## portal go [label]
 Change your current directory.
 
 ```
-portal go dev
+pt go dev
 ```   
 
 ## portal remove [label]
 Remove `label` and `dir` from your `~/.portal`
 
 ```
-portal remove dev
+pt remove dev
 ```
 
 ## portal list
 Show all lists
 
 ```
-portal list
+pt list
 
 # dev /path/to/your/directory 
 ```   

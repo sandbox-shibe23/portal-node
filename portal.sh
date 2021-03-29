@@ -1,6 +1,6 @@
 #!/bin/bash
-function portal () {
-  OUTPUT=`node dist/index.js $@`
+function pt () {
+  OUTPUT=`portal $@`
   if [ $? -eq 2 ]
     then cd "$OUTPUT"
     else echo "$OUTPUT"
