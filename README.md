@@ -2,6 +2,7 @@
 Portal helps to change the directory quickly. 
 
 # install
+## MacOS
 Portal requires to be run `install.sh`.
 
 ```
@@ -12,6 +13,8 @@ or you can install manually.
 ```
 #!/bin/bash
 echo source `pwd`/portal.sh >> ~/.bash_profile
+touch ~/.portal
+npm install -g shibe23/portal
 ```
 
 # Usage
